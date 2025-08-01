@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>❤️Feliz dia de la novia❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-gradient-light: radial-gradient(circle, #eae6ff, #7e6fff);
+    --bg-gradient-dark: radial-gradient(circle, #2e2a44, #1b1930);
+    --text-color-light: #3b2c5a;
+    --text-color-dark: #ccc5ff;
+    --btn-bg-light-start: #bbaaff;
+    --btn-bg-light-end: #7e6fff;
+    --btn-bg-dark-start: #654ea3;
+    --btn-bg-dark-end: #eaafc8;
+    --petal-bg-light-start: #c9b9ff;
+    --petal-bg-light-end: #7e6fff;
+    --petal-bg-dark-start: #a381f9;
+    --petal-bg-dark-end: #7744c7;
+    --shadow-light: rgba(187, 170, 255, 0.7);
+    --shadow-dark: rgba(255, 182, 193, 0.7);
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-gradient-light);
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: var(--text-color-light);
+    overflow: hidden;
+    transition: background 0.8s ease, color 0.8s ease;
+  }
+
+  body.dark {
+    background: var(--bg-gradient-dark);
+    color: var(--text-color-dark);
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 0 8px #bbaaff;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeDown 1s ease forwards;
+    transition: color 0.8s ease;
+  }
+
+  body.dark h1 {
+    text-shadow: 0 0 8px #d7a7c0;
+  }
+
+  @keyframes fadeDown {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .open-flower-btn {
+    background: linear-gradient(135deg, var(--btn-bg-light-start), var(--btn-bg-light-end));
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 2.4rem;
+    color: white;
+    cursor: pointer;
+    box-shadow:
+      0 6px 12px var(--shadow-light),
+      inset 0 0 10px rgba(255 255 255 / 0.15);
+    transition: all 0.3s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    position: relative;
+    z-index: 10;
+  }
+  .open-flower-btn:hover,
+  .open-flower-btn:focus {
+    background: linear-gradient(135deg, var(--btn-bg-light-end), var(--btn-bg-light-start));
+    transform: scale(1.1);
+    outline: none;
+    box-shadow:
+      0 8px 20px var(--shadow-light),
+      inset 0 0 15px rgba(255 255 255 / 0.25);
+  }
+
+  body.dark .open-flower-btn {
+    background: linear-gradient(135deg, var(--btn-bg-dark-start), var(--btn-bg-dark-end));
+    box-shadow:
+      0 6px 12px var(--shadow-dark),
+      inset 0 0 10px rgba(255 255 255 / 0.1);
+  }
+  body.dark .open-flower-btn:hover,
+  body.dark .open-flower-btn:focus {
+    background: linear-gradient(135deg, var(--btn-bg-dark-end), var(--btn-bg-dark-start));
+    box-shadow:
+      0 8px 20px var(--shadow-dark),
+      inset 0 0 15px rgba(255 255 255 / 0.25);
+  }
+
+  /* Corazón en el botón */
+  .open-flower-btn .heart {
+    font-size: 1.8rem;
+    color: #ffccff;
+    animation: heartbeat 1.5s infinite;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  .flower-container {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-top: 2.5rem;
+    transform: scale(0);
+    transition: transform 1s ease-in-out;
+    filter: drop-shadow(0 0 5px var(--shadow-light));
+    cursor: pointer;
+  }
+
+  body.dark .flower-container {
+    filter: drop-shadow(0 0 5px var(--shadow-dark));
+  }
+
+  /* Pétalos base */
+  .petal {
+    position: absolute;
+    width: 60px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--petal-bg-light-start), var(--petal-bg-light-end));
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    opacity: 0;
+    transform-origin: bottom center;
+    transform: translateY(40px) scale(0.6) rotate(0deg);
+    transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), filter 0.3s ease;
+  }
+
+  body.dark .petal {
+    background: linear-gradient(135deg, var(--petal-bg-dark-start), var(--petal-bg-dark-end));
+    box-shadow: 0 4px 12px var(--shadow-dark);
+  }
+
+  /* Posiciones y rotaciones para 8 pétalos */
+  .petal:nth-child(1) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(0deg); }
+  .petal:nth-child(2) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(45deg); }
+  .petal:nth-child(3) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(90deg); }
+  .petal:nth-child(4) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(135deg); }
+  .petal:nth-child(5) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(180deg); }
+  .petal:nth-child(6) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(225deg); }
+  .petal:nth-child(7) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(270deg); }
+  .petal:nth-child(8) { left: 50%; top: 50%; transform: translate(-50%, -100%) translateY(40px) scale(0.6) rotate(315deg); }
+
+  .flower-open .petal {
+    opacity: 1;
+    transform: translate(-50%, -100%) translateY(0) scale(1) rotate(var(--rotate));
+    transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .petal:nth-child(1) { --rotate: 0deg; }
+  .petal:nth-child(2) { --rotate: 45deg; }
+  .petal:nth-child(3) { --rotate: 90deg; }
+  .petal:nth-child(4) { --rotate: 135deg; }
+  .petal:nth-child(5) { --rotate: 180deg; }
+  .petal:nth-child(6) { --rotate: 225deg; }
+  .petal:nth-child(7) { --rotate: 270deg; }
+  .petal:nth-child(8) { --rotate: 315deg; }
+
+  /* Hover pétalos */
+  .flower-container:hover .petal {
+    filter: drop-shadow(0 0 8px #a991ff);
+    transform: translate(-50%, -100%) scale(1.05) rotate(var(--rotate));
+  }
+
+  /* Animación breath suave */
+  .flower-open {
+    animation: breath 3s ease-in-out infinite;
+  }
+  @keyframes breath {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at center, #fff59d, #fbc02d);
+    border-radius: 50%;
+    box-shadow: 0 0 12px 3px rgba(251, 192, 45, 0.7);
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+    transition: opacity 1s ease, transform 0.5s ease;
+  }
+  .flower-open .center {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+.message {
+  margin-top: 30px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  min-height: 50px;
+  max-width: 90vw; /* ancho máximo relativo a viewport para que no se salga */
+  width: 80vw;     /* ancho base del contenedor */
+  color: var(--text-color-light);
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  /* quitar white-space: nowrap para permitir salto de línea */
+  white-space: normal; /* importante para que el texto haga wrap */
+  word-wrap: break-word; /* para que palabras largas puedan partirse si es necesario */
+  user-select: none;
+  text-shadow: 0 0 8px #bbaaff;
+  overflow-wrap: break-word;
+  overflow-y: auto; /* opcional, scroll vertical si se pasa */
+  max-height: 150px; /* opcional, límite de altura para que no crezca mucho */
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+}
+
+  .message.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  body.dark .message {
+    color: var(--text-color-dark);
+    text-shadow: 0 0 8px #d7a7c0;
+  }
+
+  /* Toggle modo oscuro */
+  .dark-toggle-btn {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: 2px solid var(--text-color-light);
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text-color-light);
+    transition: all 0.4s ease;
+    z-index: 50;
+    user-select: none;
+  }
+  .dark-toggle-btn:hover {
+    background: var(--btn-bg-light-end);
+    color: white;
+    border-color: var(--btn-bg-light-end);
+  }
+  body.dark .dark-toggle-btn {
+    border-color: var(--text-color-dark);
+    color: var(--text-color-dark);
+  }
+  body.dark .dark-toggle-btn:hover {
+    background: var(--btn-bg-dark-end);
+    color: #311533;
+    border-color: var(--btn-bg-dark-end);
+  }
+
+  /* Partículas corazones */
+  #particle-container {
+    position: fixed;
+    pointer-events: none;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: visible;
+    z-index: 0;
+  }
+  .particle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #ffccff, #ff99ff);
+    clip-path: polygon(
+      50% 0%, 61% 10%, 70% 25%, 75% 40%, 75% 55%, 65% 70%, 50% 85%, 35% 70%, 25% 55%, 25% 40%, 30% 25%, 39% 10%
+    );
+    opacity: 0.8;
+    animation: floatUp linear forwards;
+    filter: drop-shadow(0 0 2px #ff99ff);
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-150px) scale(0.5);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 500px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+    .open-flower-btn {
+      width: 50px;
+      height: 50px;
+      font-size: 2rem;
+    }
+    .flower-container {
+      width: 140px;
+      height: 140px;
+    }
+    .petal {
+      width: 45px;
+      height: 75px;
+    }
+    .center {
+      width: 40px;
+      height: 40px;
+    }
+    .message {
+      font-size: 1.2rem;
+      min-height: 40px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<button class="dark-toggle-btn" aria-label="Cambiar tema" title="Cambiar tema">🌙</button>
+
+<h1>❤️ Feliz dia de la novia ❤️</h1>
+
+<button class="open-flower-btn" id="openButton" aria-label="Abrir flor" autofocus>
+  <span class="heart" aria-hidden="true">❤️</span>
+</button>
+
+<div class="flower-container" id="flower" aria-live="polite" aria-atomic="true" role="img" aria-label="Flor animada" tabindex="0">
+  <div class="petal"></div>
+  <div class="petal"></div>
+  <div class="petal"></div>
+  <div class="petal"></div>
+  <div class="petal"></div>
+  <div class="petal"></div>
+  <div class="petal"></div>
+  <div class="petal"></div>
+  <div class="center"></div>
+</div>
+
+<p class="message" id="message" aria-live="polite"></p>
+
+<div id="particle-container"></div>
+
+<script>
+  const openButton = document.getElementById('openButton');
+  const flower = document.getElementById('flower');
+  const petals = flower.querySelectorAll('.petal');
+  const message = document.getElementById('message');
+  const darkToggle = document.querySelector('.dark-toggle-btn');
+  const particleContainer = document.getElementById('particle-container');
+
+  openButton.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openButton.click();
+    }
+  });
+
+  openButton.addEventListener('click', () => {
+    openButton.disabled = true;
+    openButton.style.cursor = 'default';
+    openButton.style.opacity = '0';
+    openButton.style.transition = 'opacity 0.6s ease';
+    setTimeout(() => openButton.style.display = 'none', 600);
+
+    flower.style.transform = 'scale(1)';
+    flower.classList.add('flower-open');
+
+    petals.forEach((petal, i) => {
+      setTimeout(() => {
+        petal.style.opacity = '1';
+        petal.style.transform = `translate(-50%, -100%) translateY(0) scale(1) rotate(${i * 45}deg)`;
+      }, i * 300);
+    });
+
+    setTimeout(() => {
+      flower.querySelector('.center').style.opacity = '1';
+      flower.querySelector('.center').style.transform = 'translate(-50%, -50%) scale(1)';
+    }, petals.length * 300 + 200);
+
+    // Mostrar mensaje con efecto máquina de escribir sin sonido
+    setTimeout(() => {
+      typeWriter("❤️ Amor feliz dia de la novia talvez no te pude dar flores en fisico o dar un hermoso regalo pero lo que siempre te dare es mi amor incondicional, quiero que sepas que eres la niña más hermosa del mundo, deseo con todo el corazón que logres todo aquello que te propones y jamas te rindas eres muy fuerte sin más quiero que pases un hermoso dia espero escuchar muy pronto tu hermosa voz ❤️", message, 0);
+    }, petals.length * 300 + 600);
+  });
+
+  // Efecto máquina de escribir SIN sonido
+  function typeWriter(text, element, index = 0) {
+    if (index < text.length) {
+      element.textContent += text.charAt(index);
+      if (!element.classList.contains('visible')) {
+        element.classList.add('visible');
+      }
+      setTimeout(() => typeWriter(text, element, index + 1), 90);
+    }
+  }
+
+  // Toggle modo oscuro
+  darkToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    darkToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  });
+
+  // Partículas corazones
+  function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.top = window.innerHeight + 20 + 'px';
+    particle.style.animationDuration = 2000 + Math.random() * 2000 + 'ms';
+    particle.style.opacity = (0.3 + Math.random() * 0.7).toFixed(2);
+    particleContainer.appendChild(particle);
+
+    setTimeout(() => {
+      particle.remove();
+    }, 3000);
+  }
+
+  let particleInterval;
+  flower.addEventListener('transitionend', () => {
+    if(flower.classList.contains('flower-open')) {
+      particleInterval = setInterval(createParticle, 1500);
+    } else {
+      clearInterval(particleInterval);
+    }
+  });
+
+  window.addEventListener('beforeunload', () => clearInterval(particleInterval));
+</script>
+
+</body>
+</html>
